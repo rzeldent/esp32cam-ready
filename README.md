@@ -1,6 +1,7 @@
 # esp32cam-ready
 
 esp32-ready cam combines other projects to have an out-the-box solution to use the Chinese (7 Euro!) esp32cam module.
+Suggestions and bug fixes are welcome!
 
 ## Usage
 Download the repo, open it in platformIO and flash it to the esp32cam.
