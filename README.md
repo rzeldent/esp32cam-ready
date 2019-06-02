@@ -24,7 +24,8 @@ Install platformIO (Debian based systems)
  sudo pip install platformio
  pio upgrade
 ```
-for Windows users, install Visual Studio code and install the PlatformIO plugin.
+for Windows users, install Visual Studio code, Python and install the PlatformIO plugin.
+For command line usage Python and PlatformIO-Core is sufficient.
 
 Clone this repository, go into the folder and type:
 ```
