@@ -22,5 +22,5 @@ Esp32cam-ready depends on PlatformIO and two other libraries:
 - IotWebConf by Balázs Kelemen
 
 esp32-ready basically extends the Micro-RTSP with mutiple client connections and some interfacing.
-Thanks for making these tools and libraries available.
 
+Thanks for making these tools and libraries available.
