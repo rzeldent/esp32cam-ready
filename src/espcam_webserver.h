@@ -7,7 +7,7 @@ class espcam_webserver : public WebServer
 {
 private:
 	OV2640 &cam_;
-
+	const String& instance_name_;
 	void handle_root();
 	void handle_reset();
 	void handle_jpg_stream();
@@ -16,7 +16,7 @@ private:
 	void handle_light_off();
 
 public:
-	espcam_webserver(OV2640 &cam, int port = 80);
+	espcam_webserver(OV2640 &cam, const String& instance_name, int port = 80);
 	void begin();
 	void doLoop();
 };

@@ -4,8 +4,8 @@
 #include <ESPmDNS.h>
 #include <EEPROM.h>
 
-espcam_webserver::espcam_webserver(OV2640 &cam, int port /*= 80*/)
-	: WebServer(port), cam_(cam)
+espcam_webserver::espcam_webserver(OV2640 &cam, const String& instance_name, int port /*= 80*/)
+	: WebServer(port), cam_(cam), instance_name_(instance_name)
 {
 	// Set up required URL handlers on the web server
 	on("/reset", HTTP_GET, std::bind(&espcam_webserver::handle_reset, this));
@@ -42,7 +42,7 @@ void espcam_webserver::handle_root()
 		"<div class=\"container\">"
 		"<h2 class=\"text-center\">ESP32CAM</h2>"
 		"<div class=\"alert alert-primary\" role=\"alert\">"
-		"rtsp stream available at: <a class=\"alert-link\" href=\"rtsp://esp32cam.local:554/mjpeg/1\">rtsp://esp32cam.local:554/mjpeg/1</a>"
+		"rtsp stream available at: <a class=\"alert-link\" href=\"rtsp://" + instance_name_ +".local:554/mjpeg/1\">rtsp://"+ instance_name_ +".local:554/mjpeg/1</a>"
 		"</div>"
 		"<div class=\"list-group\">"
 		"<button type=\"button\" class=\"list-group-item list-group-item-action active\">Options</button>"

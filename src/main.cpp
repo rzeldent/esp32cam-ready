@@ -11,12 +11,14 @@
 
 #include "soc/rtc_cntl_reg.h"
 
-const char ap_name[] = "esp32cam";
+
+auto chip_id = ESP.getEfuseMac();
+auto instance_name = "esp32cam-" + String((unsigned int)(chip_id >> 32), HEX) + String((unsigned int)(chip_id), HEX);
 const char ap_password[] = "esp32cam";
 
 OV2640 cam;
 rtsp_server rtsp(cam);
-espcam_webserver espcam_web(cam);
+espcam_webserver espcam_web(cam, instance_name);
 
 // put your setup code here, to run once:
 void setup()
@@ -33,13 +35,10 @@ void setup()
 	pinMode(LED_BUILTIN, OUTPUT);
 	digitalWrite(LED_BUILTIN, false);
 
-	auto chip_id = ESP.getEfuseMac();
-
 	DNSServer dnsServer;
 	WebServer server;
-	auto thingname = String(ap_name) + "-" + String((unsigned int)(chip_id >> 32), HEX) + String((unsigned int)(chip_id), HEX);
-	log_i("ChipId: %s", thingname.c_str());
-	IotWebConf iotWebConf(thingname.c_str(), &dnsServer, &server, ap_password);
+	log_i("instance_name: %s", instance_name.c_str());
+	IotWebConf iotWebConf(instance_name.c_str(), &dnsServer, &server, ap_password);
 	iotWebConf.init();
 	iotWebConf.setWifiConnectionTimeoutMs(1000 * 30);
 
@@ -56,7 +55,7 @@ void setup()
 	server.close();
 	dnsServer.stop();
 
-	if (!MDNS.begin(ap_name))
+	if (!MDNS.begin(instance_name.c_str()))
 		log_w("Error setting up MDNS responder!");
 
 	log_i("Starting servers...");
