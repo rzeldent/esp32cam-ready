@@ -4,7 +4,7 @@ esp32-ready cam combines other projects to have an out-the-box solution to use t
 Suggestions and bug fixes are welcome!
 
 ## Usage
-Download the repo, open it in platformIO and flash it to the esp32cam.
+Download the repo, open it in (**PlatformIO**)[https://platformio.org/] and flash it to the esp32cam.
 The device should become available as an accesspoint with the name esp32cam-xxxx.
 Connect to the accesspoint and configure the ssid/password in the browser on on the address [http://192.168.4.1](http://192.168.4.1).
 When the credentials are valid and the device connects to the infrastructure, the device can be accessed over http using the link [http://esp32cam.local](http://esp32cam.local) (or the local ip address) from your browser.
@@ -25,7 +25,7 @@ Install platformIO (Debian based systems)
  sudo pip install platformio
  pio upgrade
 ```
-for Windows users, install Visual Studio code, Python and install the PlatformIO plugin.
+for Windows users, install (**Visual Studio code**)[https://code.visualstudio.com/], Python and install the PlatformIO plugin.
 For command line usage Python and PlatformIO-Core is sufficient. More information can be found at: [https://docs.platformio.org/en/latest/installation.html](https://docs.platformio.org/en/latest/installation.html)
 
 Clone this repository, go into the folder and type:
@@ -46,8 +46,8 @@ Esp32cam-ready depends on PlatformIO and two other libraries:
 - Micro-RTSP by Kevin Hester
 - IotWebConf by Balázs Kelemen
 
-esp32-ready basically extends the Micro-RTSP with mutiple client connections and some interfacing.
+esp32-ready basically extends the Micro-RTSP with mutiple client connections and adds an easy to use web interface that offers provisioning.
 
 Thanks for the comminity making these tools and libraries available.
 
-Also thanks to Espressif and the guys that created this device. You did a great job!
+Also thanks to Espressif and the guys that created this module. You did a great job!
