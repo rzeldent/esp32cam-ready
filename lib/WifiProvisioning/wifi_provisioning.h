@@ -7,15 +7,8 @@
 class wifi_provisioning : public WebServer
 {
 public:
-	wifi_provisioning(const String &instance_name, const String& ap_password, int port = 80);
-	bool provisioned();
-
-	void begin();
-
-	void start_portal();
-	void stop_portal();
-
-	void doLoop();
+	wifi_provisioning(const String &instance_name, const String &ap_password = "", int port = 80);
+	void connect();
 
 private:
 	DNSServer dns_server;
@@ -23,10 +16,10 @@ private:
 	const String &ap_password_;
 	bool provisioned_;
 
-	bool connect();
+	void start_ap();
+	void stop_ap();
 
-void sta();
-void ap();
+	void start_portal();
 
 	void handle_root_get();
 	void handle_root_post();

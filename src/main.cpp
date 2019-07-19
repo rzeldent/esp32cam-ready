@@ -1,16 +1,15 @@
 #include <Arduino.h>
 
 #include <DNSServer.h>
-#include <IotWebConf.h>
+#include <wifi_provisioning.h>
 
-#include "espcam_webserver.h"
+#include <espcam_webserver.h>
 #include <rtsp_server.h>
 
 #include <ESPmDNS.h>
 #include <OV2640.h>
 
 #include "soc/rtc_cntl_reg.h"
-
 
 auto chip_id = ESP.getEfuseMac();
 auto instance_name = "esp32cam-" + String((unsigned int)(chip_id >> 32), HEX) + String((unsigned int)(chip_id), HEX);
@@ -35,28 +34,41 @@ void setup()
 	pinMode(LED_BUILTIN, OUTPUT);
 	digitalWrite(LED_BUILTIN, false);
 
+	log_i("instance_name: %s", instance_name.c_str());
+
+	wifi_provisioning provisioning(instance_name);
+
 	DNSServer dnsServer;
 	WebServer server;
-	log_i("instance_name: %s", instance_name.c_str());
-	IotWebConf iotWebConf(instance_name.c_str(), &dnsServer, &server, ap_password);
-	iotWebConf.init();
-	iotWebConf.setWifiConnectionTimeoutMs(1000 * 30);
+
+	//	AutoConnect autoconnect(server);
+	//	if (autoconnect.begin())
+	//		log_i("WiFi connected: %s", WiFi.localIP().toString().c_str());
+	//	else
+	//		while (WiFi.status() != WL_CONNECTED)
+	//			autoconnect.handleClient();
+	//
+	//	autoconnect.end();
+
+	//	IotWebConf iotWebConf(instance_name.c_str(), &dnsServer, &server, ap_password);
+	//	iotWebConf.init();
+	//	iotWebConf.setWifiConnectionTimeoutMs(1000 * 30);
 
 	// Set up required URL handlers on the web server.
-	server.onNotFound([&]() { iotWebConf.handleNotFound(); });
-	server.on("/", [&]() { iotWebConf.handleConfig(); });
+	//	server.onNotFound([&]() { iotWebConf.handleNotFound(); });
+	//	server.on("/", [&]() { iotWebConf.handleConfig(); });
 
-	while (iotWebConf.getState() != IOTWEBCONF_STATE_ONLINE)
-	{
-		iotWebConf.doLoop();
-		sleep(0);
-	}
+	//	while (iotWebConf.getState() != IOTWEBCONF_STATE_ONLINE)
+	//	{
+	//		iotWebConf.doLoop();
+	//		sleep(0);
+	//	}
 
-	server.close();
-	dnsServer.stop();
+	//	server.close();
+	//	dnsServer.stop();
 
-	if (!MDNS.begin(instance_name.c_str()))
-		log_w("Error setting up MDNS responder!");
+	//	if (!MDNS.begin(instance_name.c_str()))
+	//		log_w("Error setting up MDNS responder!");
 
 	log_i("Starting servers...");
 	// Initialize the camera
