@@ -1,26 +1,37 @@
 #include <esp32-hal-log.h>
 #include <espcam_webserver.h>
 #include <ESPmDNS.h>
-#include <EEPROM.h>
 
-espcam_webserver::espcam_webserver(OV2640 &cam, const String& instance_name, int port /*= 80*/)
-	: WebServer(port), cam_(cam), instance_name_(instance_name)
+espcam_webserver::espcam_webserver(OV2640 &cam, const String &instance_name)
+	: instance_name_(instance_name), cam_(cam), rtsp_server_(cam)
 {
 	// Set up required URL handlers on the web server
-	on("/reset", HTTP_GET, std::bind(&espcam_webserver::handle_reset, this));
-	on("/stream", HTTP_GET, std::bind(&espcam_webserver::handle_jpg_stream, this));
-	on("/jpg", HTTP_GET, std::bind(&espcam_webserver::handle_jpg, this));
-	on("/lighton", HTTP_GET, std::bind(&espcam_webserver::handle_light_on, this));
-	on("/lightoff", HTTP_GET, std::bind(&espcam_webserver::handle_light_off, this));
-	onNotFound(std::bind(&espcam_webserver::handle_root, this));
+	server_.on("/reset", HTTP_GET, std::bind(&espcam_webserver::handle_reset, this));
+	server_.on("/stream", HTTP_GET, std::bind(&espcam_webserver::handle_jpg_stream, this));
+	server_.on("/jpg", HTTP_GET, std::bind(&espcam_webserver::handle_jpg, this));
+	server_.on("/lighton", HTTP_GET, std::bind(&espcam_webserver::handle_light_on, this));
+	server_.on("/lightoff", HTTP_GET, std::bind(&espcam_webserver::handle_light_off, this));
+	server_.onNotFound(std::bind(&espcam_webserver::handle_root, this));
 }
 
 void espcam_webserver::begin()
 {
+	log_i("Starting rtsp_server");
+	rtsp_server_.begin();
+
 	log_i("Starting web server");
-	WebServer::begin();
+	server_.begin();
+
+	MDNS.begin(instance_name_.c_str());
 	// Add service to MDNS - http
 	MDNS.addService("http", "tcp", 80);
+}
+
+void espcam_webserver::doLoop()
+{
+	rtsp_server_.doLoop();
+	server_.handleClient();
+	yield();
 }
 
 void espcam_webserver::handle_root()
@@ -41,67 +52,62 @@ void espcam_webserver::handle_root()
 		"<div class=\"container\">"
 		"<h2 class=\"text-center\">ESP32CAM</h2>"
 		"<div class=\"alert alert-primary\" role=\"alert\">"
-		"rtsp stream available at: <a class=\"alert-link\" href=\"rtsp://" + instance_name_ +".local:554/mjpeg/1\">rtsp://"+ instance_name_ +".local:554/mjpeg/1</a>"
-		"</div>"
-		"<div class=\"list-group\">"
-		"<button type=\"button\" class=\"list-group-item list-group-item-action active\">Options</button>"
-		"<a class=\"list-group-item list-group-item-action\" href=\"jpg\">Single frame</a>"
-		"<a class=\"list-group-item list-group-item-action\" href=\"stream\">Stream frames</a>"
-		"<a class=\"list-group-item list-group-item-action\" href=\"lighton\">Light on</a>"
-		"<a class=\"list-group-item list-group-item-action\" href=\"lightoff\">Light off</a>"
-		"<a class=\"list-group-item list-group-item-action list-group-item-danger\" href=\"reset\">Reset configuration and restart</a>"
-		"</div>"
-		"</div>"
-		"</body>"
-		"</html>");
+		"rtsp stream available at: <a class=\"alert-link\" href=\"rtsp://" +
+		instance_name_ + ".local:554/mjpeg/1\">rtsp://" + instance_name_ + ".local:554/mjpeg/1</a>"
+																		   "</div>"
+																		   "<div class=\"list-group\">"
+																		   "<button type=\"button\" class=\"list-group-item list-group-item-action active\">Options</button>"
+																		   "<a class=\"list-group-item list-group-item-action\" href=\"jpg\">Single frame</a>"
+																		   "<a class=\"list-group-item list-group-item-action\" href=\"stream\">Stream frames</a>"
+																		   "<a class=\"list-group-item list-group-item-action\" href=\"lighton\">Light on</a>"
+																		   "<a class=\"list-group-item list-group-item-action\" href=\"lightoff\">Light off</a>"
+																		   "<a class=\"list-group-item list-group-item-action list-group-item-danger\" href=\"reset\">Reset configuration and restart</a>"
+																		   "</div>"
+																		   "</div>"
+																		   "</body>"
+																		   "</html>");
 
-	send(200, "text/html", html);
+	server_.send(200, "text/html", html);
 }
 
 void espcam_webserver::handle_reset()
 {
 	log_i("handle_reset");
-	// Clear EEPROM
-	for (auto t = 0; t < 512; t++)
-		EEPROM.write(t, 0);
-
-	sendHeader("Location", "/");
-	// See Other
-	send(303);
+	WiFi.setAutoConnect(false);
 	ESP.restart();
 }
 
 void espcam_webserver::handle_jpg_stream()
 {
 	log_i("handle_jpg_stream");
-	sendContent("HTTP/1.1 200 OK\r\n"
-				"Content-Type: multipart/x-mixed-replace; boundary=frame\r\n\r\n");
+	server_.sendContent("HTTP/1.1 200 OK\r\n"
+						"Content-Type: multipart/x-mixed-replace; boundary=frame\r\n\r\n");
 
-	auto wifi_client = client();
+	auto wifi_client = server_.client();
 	do
 	{
 		cam_.run();
 		if (!wifi_client.connected())
 			break;
 
-		sendContent("--frame\r\n"
-					"Content-Type: image/jpeg\r\n\r\n");
+		server_.sendContent("--frame\r\n"
+							"Content-Type: image/jpeg\r\n\r\n");
 		wifi_client.write(reinterpret_cast<char *>(cam_.getfb()), cam_.getSize());
-		sendContent("\r\n");
+		server_.sendContent("\r\n");
 	} while (wifi_client.connected());
 }
 
 void espcam_webserver::handle_jpg()
 {
 	log_i("handle_jpg");
-	auto wifi_client = client();
+	auto wifi_client = server_.client();
 	cam_.run();
 	if (!wifi_client.connected())
 		return;
 
-	sendContent("HTTP/1.1 200 OK\r\n"
-				"Content-disposition: inline; filename=capture.jpg\r\n"
-				"Content-type: image/jpeg\r\n\r\n");
+	server_.sendContent("HTTP/1.1 200 OK\r\n"
+						"Content-disposition: inline; filename=capture.jpg\r\n"
+						"Content-type: image/jpeg\r\n\r\n");
 	wifi_client.write(reinterpret_cast<const char *>(cam_.getfb()), cam_.getSize());
 }
 
@@ -110,9 +116,9 @@ void espcam_webserver::handle_light_on()
 	log_i("handle_light_on");
 	digitalWrite(LED_BUILTIN, true);
 
-	sendHeader("Location", "/");
+	server_.sendHeader("Location", "/");
 	// See Other
-	send(303);
+	server_.send(302);
 }
 
 void espcam_webserver::handle_light_off()
@@ -120,12 +126,7 @@ void espcam_webserver::handle_light_off()
 	log_i("handle_light_off");
 	digitalWrite(LED_BUILTIN, false);
 
-	sendHeader("Location", "/");
+	server_.sendHeader("Location", "/");
 	// See Other
-	send(303);
-}
-
-void espcam_webserver::doLoop()
-{
-	handleClient();
+	server_.send(302);
 }

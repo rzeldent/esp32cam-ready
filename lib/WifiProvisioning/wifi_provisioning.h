@@ -4,23 +4,23 @@
 #include <DNSServer.h>
 #include <WiFi.h>
 
-class wifi_provisioning : public WebServer
+class wifi_provisioning
 {
-public:
-	wifi_provisioning(const String &instance_name, const String &ap_password = "", int port = 80);
-	void connect();
-
 private:
-	DNSServer dns_server;
 	const String &instance_name_;
-	const String &ap_password_;
-	bool provisioned_;
+	const String base_url_;
 
-	void start_ap();
-	void stop_ap();
+	WebServer server_;
+	DNSServer dns_server_;
 
-	void start_portal();
-
+	void handle_unknown();
 	void handle_root_get();
 	void handle_root_post();
+
+public:
+	wifi_provisioning(const String &instance_name, const String& base_url = "/provisioning");
+	wl_status_t connect(int attempts = 2);
+
+	void start_portal(const String &ap_password = "");
+	void doLoop();
 };

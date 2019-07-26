@@ -1,5 +1,4 @@
 #include "rtsp_server.h"
-
 #include <esp32-hal-log.h>
 #include <ESPmDNS.h>
 
@@ -20,6 +19,7 @@ void rtsp_server::begin()
 {
 	log_i("Starting rtsp server");
 	WiFiServer::begin();
+
 	// Add service to MDNS - rtsp
 	MDNS.addService("rtsp", "tcp", 554);
 }
