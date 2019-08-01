@@ -26,7 +26,6 @@ void wifi_provisioning::start_portal(const String &ap_password /*= "" */)
 {
     log_i("Starting portal");
     WiFi.setAutoConnect(false);
-    WiFi.disconnect(false);
 
  //   WiFi.mode(WIFI_AP);
     WiFi.softAP(instance_name_.c_str(), ap_password.length() ? ap_password.c_str() : nullptr);
@@ -113,19 +112,17 @@ void wifi_provisioning::handle_root_get()
 void wifi_provisioning::handle_root_post()
 {
     log_i("handle_root_post");
-    if (!server_.hasArg("ssid") || !server_.hasArg("password") || server_.arg("ssid") == nullptr || server_.arg("password") == nullptr)
+    String ssid, password;
+    if (!server_.hasArg("ssid") || !server_.hasArg("password") || (ssid = server_.arg("ssid")) == nullptr || (password = server_.arg("password")) == nullptr)
     {
         server_.send(400, "text/plain", "400: Invalid Request");
         return;
     }
 
-    auto ssid = server_.arg("ssid");
-    auto password = server_.arg("password");
     log_i("SSID: %s, password: %s", ssid.c_str(), password.c_str());
 
     WiFi.softAPdisconnect();
     WiFi.mode(WIFI_STA);
-
     WiFi.begin(ssid.c_str(), password.c_str());
     WiFi.setAutoConnect(true);
 

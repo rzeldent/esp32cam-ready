@@ -73,7 +73,7 @@ void espcam_webserver::handle_root()
 void espcam_webserver::handle_reset()
 {
 	log_i("handle_reset");
-	WiFi.setAutoConnect(false);
+	WiFi.disconnect(false, true);
 	ESP.restart();
 }
 
