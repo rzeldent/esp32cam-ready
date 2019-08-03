@@ -1,5 +1,4 @@
 #include "rtsp_server.h"
-
 #include <esp32-hal-log.h>
 #include <ESPmDNS.h>
 
@@ -20,6 +19,7 @@ void rtsp_server::begin()
 {
 	log_i("Starting rtsp server");
 	WiFiServer::begin();
+
 	// Add service to MDNS - rtsp
 	MDNS.addService("rtsp", "tcp", 554);
 }
@@ -29,9 +29,7 @@ void rtsp_server::doLoop()
 	// Check if a client wants to connect
 	auto new_client = accept();
 	if (new_client)
-	{
 		clients_.push_back(std::unique_ptr<rtsp_client>(new rtsp_client(new_client, cam_)));
-	}
 
 	// Check if any client connected. If none: nothing to do
 	if (clients_.empty())

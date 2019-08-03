@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="pragma" content="no-cache">
+    <title>
+        instance
+    </title>
+    <style>
+        label {
+            width: 80px;
+            display: block;
+            float: left;
+            clear: left;
+        }
+
+        select,
+        input,
+        button {
+            display: block;
+            border-radius: 5px;
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>instance</h1>
+    <hr>
+    <label for="ssids">Found:</label>
+    <select name="ssids" onchange="document.getElementById('ssid').value=this.value">
+            <option value="ssid1">ssid1</option>
+            <option value="ssid2">ssid2</option>
+        </select>
+    <br/>
+    <form action="/" method="POST">
+        <label for="ssid">SSID:</label>
+        <input id="ssid" name="ssid" type="text">
+        <br />
+        <label for="password">Password:</label>
+        <input name="password" type="password">
+        <br />
+        <button type="submit">Submit</button>
+    </form>
+</body>
+
+</html>
