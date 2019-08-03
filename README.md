@@ -42,12 +42,10 @@ When done remove the jumper and press reset. To monitor the output, start a term
 ```
 
 ## Credits
-Esp32cam-ready depends on PlatformIO and two other libraries:
-- Micro-RTSP by Kevin Hester
-- IotWebConf by Balázs Kelemen
+Esp32cam-ready depends on PlatformIO and Micro-RTSP by Kevin Hester.
 
 esp32-ready basically extends the Micro-RTSP with mutiple client connections and adds an easy to use web interface that offers provisioning.
 
-Thanks for the comminity making these tools and libraries available.
+Thanks for the community making these tools and libraries available.
 
 Also thanks to Espressif and the guys that created this module. You did a great job!
