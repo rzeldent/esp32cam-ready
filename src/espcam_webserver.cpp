@@ -6,12 +6,12 @@ espcam_webserver::espcam_webserver(OV2640 &cam, const String &instance_name)
 	: instance_name_(instance_name), cam_(cam), rtsp_server_(cam)
 {
 	// Set up required URL handlers on the web server
+	server_.on("/", HTTP_GET, std::bind(&espcam_webserver::handle_root, this));
 	server_.on("/reset", HTTP_GET, std::bind(&espcam_webserver::handle_reset, this));
 	server_.on("/stream", HTTP_GET, std::bind(&espcam_webserver::handle_jpg_stream, this));
 	server_.on("/jpg", HTTP_GET, std::bind(&espcam_webserver::handle_jpg, this));
 	server_.on("/lighton", HTTP_GET, std::bind(&espcam_webserver::handle_light_on, this));
 	server_.on("/lightoff", HTTP_GET, std::bind(&espcam_webserver::handle_light_off, this));
-	server_.onNotFound(std::bind(&espcam_webserver::handle_root, this));
 }
 
 void espcam_webserver::begin()
