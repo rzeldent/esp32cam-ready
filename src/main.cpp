@@ -12,8 +12,15 @@
 const char app_name[] = "esp32cam";
 const char ap_password[] = "esp32cam#";
 
-auto chip_id = ESP.getEfuseMac();
-auto instance_name = String(app_name) + "-" + String((unsigned int)(chip_id >> 32), HEX) + String((unsigned int)(chip_id), HEX);
+String get_mac_address()
+{
+	auto mac = WiFi.macAddress();
+	mac.replace(":", "");
+	mac.toLowerCase();
+	return mac;
+}
+
+auto instance_name = String(app_name) + "-" + get_mac_address();
 
 OV2640 cam;
 espcam_webserver espcam_web(cam, instance_name);
