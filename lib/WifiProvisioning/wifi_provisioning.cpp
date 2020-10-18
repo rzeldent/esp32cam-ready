@@ -1,6 +1,6 @@
 #include "wifi_provisioning.h"
 
-wifi_provisioning::wifi_provisioning(const String &instance_name, const String& base_url /* = "/provisioning" */)
+wifi_provisioning::wifi_provisioning(const String &instance_name, const String &base_url /* = "/provisioning" */)
     : instance_name_(instance_name), base_url_(base_url)
 {
     server_.on(base_url_, HTTP_GET, std::bind(&wifi_provisioning::handle_root_get, this));
@@ -27,7 +27,6 @@ void wifi_provisioning::start_portal(const String &ap_password /*= "" */)
     log_i("Starting portal");
     WiFi.setAutoConnect(false);
 
- //   WiFi.mode(WIFI_AP);
     WiFi.softAP(instance_name_.c_str(), ap_password.length() ? ap_password.c_str() : nullptr);
     auto ip_address = WiFi.softAPIP();
     log_i("AP IP address: %s", ip_address.toString().c_str());
@@ -66,8 +65,9 @@ void wifi_provisioning::handle_root_get()
     for (auto index = 0; index < ssid_items; ++index)
     {
         auto ssid = WiFi.SSID(index);
-        log_i("Adding ssid: %s", ssid.c_str());
-        ssid_options += "<option value=\"" + ssid + "\">" + ssid + "</option>";
+        auto rssi = WiFi.RSSI(index);
+        log_i("Adding ssid: %s (%d dBm)", ssid.c_str(), rssi);
+        ssid_options += "<option value=\"" + ssid + "\">" + ssid + "(" + rssi + ")</option>";
     }
 
     String html(
@@ -90,7 +90,8 @@ void wifi_provisioning::handle_root_get()
         "</h1>"
         "<hr>"
         "<label for=\"ssids\">Found:</label>"
-        "<select name=\"ssids\" onchange=\"document.getElementByName('ssid')[0].value=this.value\">" +
+        "<select name=\"ssids\" onchange=\"document.getElementsByName('ssid')[0].value=this.value\">"
+        "<option value=\"\"></option>" +
         ssid_options +
         "</select>"
         "<br />"

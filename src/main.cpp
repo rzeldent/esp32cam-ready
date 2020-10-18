@@ -61,7 +61,7 @@ void setup()
 
 	log_i("Starting servers...");
 	// Initialize the camera
-	esp32cam_aithinker_config.frame_size = FRAMESIZE_SVGA;
+	esp32cam_aithinker_config.frame_size = FRAMESIZE_UXGA;
 	cam.init(esp32cam_aithinker_config);
 	espcam_web.begin();
 }
