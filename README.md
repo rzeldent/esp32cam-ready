@@ -26,7 +26,7 @@ Install platformIO (Debian based systems)
  sudo pip install platformio
  pio upgrade
 ```
-for Windows users, install (**Visual Studio code**)[https://code.visualstudio.com/], Python and install the PlatformIO plugin.
+for Windows and Linux/Max users, install (**Visual Studio code**)[https://code.visualstudio.com/] and install the PlatformIO plugin.
 For command line usage Python and PlatformIO-Core is sufficient. More information can be found at: [https://docs.platformio.org/en/latest/installation.html](https://docs.platformio.org/en/latest/installation.html)
 
 Clone this repository, go into the folder and type:
@@ -49,4 +49,4 @@ esp32-ready basically extends the Micro-RTSP with mutiple client connections and
 
 Thanks for the community making these tools and libraries available.
 
-Also thanks to Espressif and the guys that created this module. You did a great job!
+Also thanks to EspressIf and the guys that created these modules!
