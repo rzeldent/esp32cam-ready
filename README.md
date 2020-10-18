@@ -4,7 +4,7 @@ esp32-ready cam combines other projects to have an out-the-box solution to use t
 Suggestions and bug fixes are welcome!
 
 ## Usage
-Download the repo, open it in (**PlatformIO**)[https://platformio.org/] and flash it to the esp32cam.
+Download the repo, open it in [**PlatformIO**](https://platformio.org/) and flash it to the esp32cam.
 The device should become available as an accesspoint with the name esp32cam-xxxxxxxxxxxx, where the xxxxxxxxxxxx represents the MAC address of the device.
 The default password for the device as accesspoint is *espcam32#*. 
 Next, connect to the accesspoint and configure the ssid/password in the browser on on the address [http://192.168.4.1](http://192.168.4.1).
