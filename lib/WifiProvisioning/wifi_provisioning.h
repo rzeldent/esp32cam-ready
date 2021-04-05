@@ -19,7 +19,7 @@ private:
 
 public:
 	wifi_provisioning(const String &instance_name, const String& base_url = "/provisioning");
-	wl_status_t connect(int attempts = 2);
+	wl_status_t connect(int seconds = 30);
 
 	void start_portal(const String &ap_password = "");
 	void doLoop();

@@ -8,14 +8,15 @@ wifi_provisioning::wifi_provisioning(const String &instance_name, const String &
     server_.onNotFound(std::bind(&wifi_provisioning::handle_unknown, this));
 }
 
-wl_status_t wifi_provisioning::connect(int attempts /* = 2 */)
+wl_status_t wifi_provisioning::connect(int seconds /* = 30 */)
 {
     WiFi.mode(WIFI_STA);
-    wl_status_t connect_result = WiFi.begin();
-    while (connect_result != WL_CONNECTED && --attempts > 0)
+    auto connect_result = WiFi.begin();
+    while ((connect_result != WL_CONNECTED) && seconds-- > 0)
     {
-        log_i("Connecting... Retries left: %d", attempts);
-        connect_result = (wl_status_t)WiFi.waitForConnectResult();
+        log_i("Connecting %d seconds left...", seconds);
+        delay(1000);
+        connect_result = WiFi.status();
     }
 
     log_i("Connection result: %d", connect_result);
