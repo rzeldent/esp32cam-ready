@@ -6,7 +6,7 @@ Suggestions and bug fixes are welcome!
 ## Usage
 Download the repo, open it in [**PlatformIO**](https://platformio.org/) and flash it to the esp32cam.
 The device should become available as an accesspoint with the name esp32cam-xxxxxxxxxxxx, where the xxxxxxxxxxxx represents the MAC address of the device.
-The default password for the device as accesspoint is *espcam32#*. 
+The default password for the device as accesspoint is '*esp32cam#*'. 
 Next, connect to the accesspoint and configure the ssid/password in the browser on on the address [http://192.168.4.1](http://192.168.4.1).
 When the credentials are valid and the device connects to the infrastructure, the device can be accessed over http using the link [http://esp32cam.local](http://esp32cam.local) (or the local ip address) from your browser.
 
