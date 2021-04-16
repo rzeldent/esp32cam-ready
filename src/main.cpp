@@ -35,6 +35,8 @@ void setup()
 	Serial.setDebugOutput(true);
 	esp_log_level_set("*", ESP_LOG_VERBOSE);
 
+	log_i("CPU Freq = %d Mhz", getCpuFrequencyMhz());
+
 	log_i("Starting ESP32Cam...");
 
 	pinMode(LED_BUILTIN, OUTPUT);
@@ -57,7 +59,7 @@ void setup()
 		ESP.restart();
 	}
 
-	log_i("Connected! IP address:%s", WiFi.localIP().toString().c_str());
+	log_i("Connected! IP address: %s", WiFi.localIP().toString().c_str());
 
 	log_i("Starting servers...");
 	// Initialize the camera
