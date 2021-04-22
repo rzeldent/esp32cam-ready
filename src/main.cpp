@@ -36,11 +36,15 @@ void setup()
 	esp_log_level_set("*", ESP_LOG_VERBOSE);
 
 	log_i("CPU Freq = %d Mhz", getCpuFrequencyMhz());
-
 	log_i("Starting ESP32Cam...");
 
 	pinMode(LED_BUILTIN, OUTPUT);
 	digitalWrite(LED_BUILTIN, false);
+
+	log_i("Initialize the camera");
+	esp32cam_aithinker_config.frame_size = FRAMESIZE_UXGA;
+	if (cam.init(esp32cam_aithinker_config) != ESP_OK)
+		log_e("Initializing the camera failed");
 
 	log_i("Instance_name: %s", instance_name.c_str());
 
@@ -62,9 +66,7 @@ void setup()
 	log_i("Connected! IP address: %s", WiFi.localIP().toString().c_str());
 
 	log_i("Starting servers...");
-	// Initialize the camera
-	esp32cam_aithinker_config.frame_size = FRAMESIZE_UXGA;
-	cam.init(esp32cam_aithinker_config);
+
 	espcam_web.begin();
 }
 
