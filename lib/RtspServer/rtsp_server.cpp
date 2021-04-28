@@ -1,6 +1,7 @@
 #include "rtsp_server.h"
 #include <esp32-hal-log.h>
 #include <ESPmDNS.h>
+#include <OV2640Streamer.h>
 
 rtsp_server::rtsp_client::rtsp_client(const WiFiClient &client, OV2640 &cam)
 {

@@ -4,7 +4,6 @@
 #include <WiFiServer.h>
 #include <ESPmDNS.h>
 #include <OV2640.h>
-#include <OV2640Streamer.h>
 #include <CRtspSession.h>
 
 class rtsp_server : public WiFiServer
