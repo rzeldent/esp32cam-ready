@@ -10,7 +10,7 @@ rtsp_server::rtsp_client::rtsp_client(const WiFiClient &client, OV2640 &cam)
 	session = std::shared_ptr<CRtspSession>(new CRtspSession(&wifi_client, streamer.get()));
 }
 
-// URI: rtsp://192.168.178.27:554/mjpeg/1
+// URI: e.g. rtsp://192.168.178.27:554/mjpeg/1
 rtsp_server::rtsp_server(OV2640 &cam, int port /*= 554*/)
 	: WiFiServer(port), cam_(cam)
 {
@@ -18,10 +18,10 @@ rtsp_server::rtsp_server(OV2640 &cam, int port /*= 554*/)
 
 void rtsp_server::begin()
 {
-	log_i("Starting rtsp server");
+	log_i("Starting RTSP server");
 	WiFiServer::begin();
 
-	// Add service to MDNS - rtsp
+	// Add service to mDNS - rtsp
 	MDNS.addService("rtsp", "tcp", 554);
 }
 

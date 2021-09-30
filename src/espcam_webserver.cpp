@@ -23,7 +23,7 @@ void espcam_webserver::begin()
 	server_.begin();
 
 	MDNS.begin(instance_name_.c_str());
-	// Add service to MDNS - http
+	// Add service to MmNS - http
 	MDNS.addService("http", "tcp", 80);
 }
 
