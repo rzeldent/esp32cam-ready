@@ -31,7 +31,6 @@ void espcam_webserver::doLoop()
 {
 	rtsp_server_.doLoop();
 	server_.handleClient();
-	yield();
 }
 
 void espcam_webserver::handle_root()
