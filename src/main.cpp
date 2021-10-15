@@ -73,5 +73,4 @@ void setup()
 void loop()
 {
 	espcam_web.doLoop();
-	yield();
 }

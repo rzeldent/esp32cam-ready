@@ -31,7 +31,6 @@ void espcam_webserver::doLoop()
 {
 	rtsp_server_.doLoop();
 	server_.handleClient();
-	yield();
 }
 
 void espcam_webserver::handle_root()
@@ -106,8 +105,8 @@ void espcam_webserver::handle_jpg()
 		return;
 
 	server_.sendContent("HTTP/1.1 200 OK\r\n"
-						"Content-disposition: inline; filename=capture.jpg\r\n"
-						"Content-type: image/jpeg\r\n\r\n");
+						"Content-Disposition: inline; filename=capture.jpg\r\n"
+						"Content-Type: image/jpeg\r\n\r\n");
 	wifi_client.write(reinterpret_cast<const char *>(cam_.getfb()), cam_.getSize());
 }
 
