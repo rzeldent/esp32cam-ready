@@ -56,7 +56,7 @@ void rtsp_server::doLoop()
 			log_w("warning exceeding max frame rate of %lu ms", now - last_image);
 	}
 
-	clients_.remove_if([](std::unique_ptr<rtsp_client> const &c) {
-		return c->session->m_stopped;
-	});
+	clients_.remove_if(
+		[](std::unique_ptr<rtsp_client> const &c)
+		{ return c->session->m_stopped; });
 }
