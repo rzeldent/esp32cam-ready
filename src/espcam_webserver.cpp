@@ -12,6 +12,7 @@ espcam_webserver::espcam_webserver(OV2640 &cam, const String &instance_name)
 	server_.on("/jpg", HTTP_GET, std::bind(&espcam_webserver::handle_jpg, this));
 	server_.on("/lighton", HTTP_GET, std::bind(&espcam_webserver::handle_light_on, this));
 	server_.on("/lightoff", HTTP_GET, std::bind(&espcam_webserver::handle_light_off, this));
+	server_.on("/lightstatus", HTTP_GET, std::bind(&espcam_webserver::handle_light_status, this));
 }
 
 void espcam_webserver::begin()
@@ -128,4 +129,12 @@ void espcam_webserver::handle_light_off()
 	server_.sendHeader("Location", "/");
 	// See Other
 	server_.send(302);
+}
+
+void espcam_webserver::handle_light_status()
+{
+	log_i("handle_light_status");
+	bool on = digitalRead(LED_BUILTIN);
+
+	server_.send(200, "text/html", on ? "1" : "0");
 }
