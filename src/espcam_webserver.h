@@ -19,6 +19,7 @@ private:
 	void handle_jpg();
 	void handle_light_on();
 	void handle_light_off();
+	void handle_light_status();
 
 public:
 	espcam_webserver(OV2640 &cam, const String &instance_name);
