@@ -3,6 +3,12 @@
 esp32-ready cam combines other projects to have an out-the-box solution to use the Chinese (7 Euro!) esp32cam module.
 Suggestions and bug fixes are welcome!
 
+## Required
+
+- ESP32 Cam module
+- USB to Serial (TTL level) converter or Piggyback board ESP32-CAM-MB
+- Jumper to short the pin GPIO00 to GND during boot to start the upload
+
 ## Usage
 - Download the repo, open it in [**PlatformIO**](https://platformio.org/) and flash it to the esp32cam.
 - The device should become available as an access point with the name esp32cam-xxxxxxxxxxxx, where the xxxxxxxxxxxx represents the MAC address of the device.
@@ -10,7 +16,7 @@ The default password for the device as access point is '*esp32cam#*'.
 - Connect to the access point and configure the ssid/password in the browser on on the address [http://192.168.4.1](http://192.168.4.1).
 - When the credentials are valid and the device connects to the infrastructure, the device can be accessed over http using the link [http://esp32cam.local](http://esp32cam.local) (or the local ip address) from your browser.
 
-RTSP stream is available at: [rtsp://esp32cam.local:554/mjpeg/1](rtsp://esp32cam.local:554/mjpeg/1). This link can be opened with for example (VLC)[https://www.videolan.org/vlc/]
+RTSP stream is available at: [rtsp://esp32cam.local:554/mjpeg/1](rtsp://esp32cam.local:554/mjpeg/1). This link can be opened with for example [VLC](https://www.videolan.org/vlc/)
 
 Using the browser, you can
 - Take a snapshot
@@ -20,13 +26,16 @@ Using the browser, you can
 
 ## Installing and running PlatformIO
 
-Install platformIO (Debian based systems)
+### Debian based systems command-line
+Install platformIO
 ```
  sudo apt-get install python-pip
  sudo pip install platformio
  pio upgrade
 ```
-for Windows and Linux/Mac users, install (**Visual Studio code**)[https://code.visualstudio.com/] and install the PlatformIO plugin.
+
+### Windows / Linux and Mac
+Install [**Visual Studio code**](https://code.visualstudio.com) and install the PlatformIO plugin.
 For command line usage Python and PlatformIO-Core is sufficient. More information can be found at: [https://docs.platformio.org/en/latest/installation.html](https://docs.platformio.org/en/latest/installation.html)
 
 Clone this repository, go into the folder and type:
