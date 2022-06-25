@@ -3,6 +3,8 @@
 ESP32cam-ready combines multiple projects to have an out-the-box solution to use the Chinese (7 Euro!) esp32cam modules.
 ![ESP32CAM module](assets/ESP32-CAM.jpg)
 
+Flashing this software in esp32cam will make the esp32cam an internet accessible webserver with streaming data from the camera. Additionally this software hosts an RTSP server, that can be used to connect with standard video applications that use RTSP (for example VLC). Easy installation: Flash, provision and connect!
+
 ## Required
 
 - ESP32 Cam module
