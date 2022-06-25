@@ -1,7 +1,7 @@
 # esp32cam-ready
 
-esp32-ready cam combines other projects to have an out-the-box solution to use the Chinese (7 Euro!) esp32cam module.
-Suggestions and bug fixes are welcome!
+ESP32cam-ready combines multiple projects to have an out-the-box solution to use the Chinese (7 Euro!) esp32cam modules.
+![ESP32CAM module](assets/ESP32-CAM.jpg)
 
 ## Required
 
@@ -16,7 +16,7 @@ The default password for the device as access point is '*esp32cam#*'.
 - Connect to the access point and configure the ssid/password in the browser on on the address [http://192.168.4.1](http://192.168.4.1).
 - When the credentials are valid and the device connects to the infrastructure, the device can be accessed over http using the link [http://esp32cam.local](http://esp32cam.local) (or the local ip address) from your browser.
 
-RTSP stream is available at: [rtsp://esp32cam.local:554/mjpeg/1](rtsp://esp32cam.local:554/mjpeg/1). This link can be opened with for example [VLC](https://www.videolan.org/vlc/)
+RTSP stream is available at: [rtsp://esp32cam.local:554/mjpeg/1](rtsp://esp32cam.local:554/mjpeg/1). This link can be opened with for example [VLC](https://www.videolan.org/vlc/).
 
 Using the browser, you can
 - Take a snapshot
