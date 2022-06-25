@@ -4,13 +4,13 @@ esp32-ready cam combines other projects to have an out-the-box solution to use t
 Suggestions and bug fixes are welcome!
 
 ## Usage
-Download the repo, open it in [**PlatformIO**](https://platformio.org/) and flash it to the esp32cam.
-The device should become available as an access point with the name esp32cam-xxxxxxxxxxxx, where the xxxxxxxxxxxx represents the MAC address of the device.
+- Download the repo, open it in [**PlatformIO**](https://platformio.org/) and flash it to the esp32cam.
+- The device should become available as an access point with the name esp32cam-xxxxxxxxxxxx, where the xxxxxxxxxxxx represents the MAC address of the device.
 The default password for the device as access point is '*esp32cam#*'. 
-Next, connect to the access point and configure the ssid/password in the browser on on the address [http://192.168.4.1](http://192.168.4.1).
-When the credentials are valid and the device connects to the infrastructure, the device can be accessed over http using the link [http://esp32cam.local](http://esp32cam.local) (or the local ip address) from your browser.
+- Connect to the access point and configure the ssid/password in the browser on on the address [http://192.168.4.1](http://192.168.4.1).
+- When the credentials are valid and the device connects to the infrastructure, the device can be accessed over http using the link [http://esp32cam.local](http://esp32cam.local) (or the local ip address) from your browser.
 
-RTSP stream is available at: (rtsp://esp32cam.local:554/mjpeg/1)[rtsp://esp32cam.local:554/mjpeg/1]
+RTSP stream is available at: [rtsp://esp32cam.local:554/mjpeg/1](rtsp://esp32cam.local:554/mjpeg/1). This link can be opened with for example (VLC)[https://www.videolan.org/vlc/]
 
 Using the browser, you can
 - Take a snapshot
