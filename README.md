@@ -12,14 +12,16 @@ RTSP also allows to stream directly to a server using **ffmpeg**. This makes the
 ## Required
 
 - esp32cam module
-- USB to Serial (TTL level) converter or the Piggyback board ESP32-CAM-MB
+- USB to Serial (TTL level) converter on the piggyback board ESP32-CAM-MB
 
 ## Wiring
 Only during the upload, the esp32cam module needs to be attached using an USB to serial adapter.
 This must be wired in the following way:
 ![ESP FTDI wiring](assets/ESP32CAM-to-FTDI.png)
-
 After programming remove the wire to GPIO0 so the module will start normally.
+
+Or, just put the esp32cam module on the ESP32-CAM-MB board and press the IO0 button together with reset and then release the reset button.
+![ESP32-CAM-MB](assets/ESP32-CAM-MB.jpg)
 
 ## Usage
 - Download the repo, open it in [**PlatformIO**](https://platformio.org/) and flash it to the esp32cam.
