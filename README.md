@@ -1,15 +1,25 @@
 # esp32cam-ready
 
-ESP32cam-ready combines multiple projects to have an out-the-box solution to use the Chinese (7 Euro!) esp32cam modules.
+esp32cam-ready combines multiple projects to have an out-the-box solution to use the Chinese (7 Euro!) esp32cam modules.
+Easy installation: Flash, provision using the build in configuration webserver and connect!
+
 ![ESP32CAM module](assets/ESP32-CAM.jpg)
 
-Flashing this software in esp32cam will make the esp32cam an internet accessible webserver with streaming data from the camera. Additionally this software hosts an RTSP server, that can be used to connect with standard video applications that use RTSP (for example VLC). Easy installation: Flash, provision and connect!
+Flashing this software in esp32cam will make the esp32cam a **webserver** with **streaming data** from the camera and some more features.
+Additionally this software hosts a **RTSP server**, that can be used to connect with standard video applications that use RTSP (for example VLC).
+RTSP also allows to stream directly to a server using **ffmpeg**. This makes the module a camera server allowing **recording** and  so the stream can be **stored on a disk** and replayed later.
 
 ## Required
 
-- ESP32 Cam module
-- USB to Serial (TTL level) converter or Piggyback board ESP32-CAM-MB
-- Jumper to short the pin GPIO00 to GND during boot to start the upload
+- esp32cam module
+- USB to Serial (TTL level) converter or the Piggyback board ESP32-CAM-MB
+
+## Wiring
+Only during the upload, the esp32cam module needs to be attached using an USB to serial adapter.
+This must be wired in the following way:
+![ESP FTDI wiring](assets/ESP32CAM-to-FTDI.png)
+
+After programming remove the wire to GPIO0 so the module will start normally.
 
 ## Usage
 - Download the repo, open it in [**PlatformIO**](https://platformio.org/) and flash it to the esp32cam.
@@ -54,9 +64,7 @@ When done remove the jumper and press reset. To monitor the output, start a term
 ```
 
 ## Credits
-Esp32cam-ready depends on PlatformIO and Micro-RTSP by Kevin Hester.
-
-esp32-ready basically extends the Micro-RTSP with multiple client connections and adds an easy to use web interface that offers provisioning.
+esp32cam-ready depends on PlatformIO and Micro-RTSP by Kevin Hester.
 
 Thanks for the community making these tools and libraries available.
 
