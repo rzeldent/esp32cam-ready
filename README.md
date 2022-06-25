@@ -10,7 +10,7 @@ The default password for the device as access point is '*esp32cam#*'.
 Next, connect to the access point and configure the ssid/password in the browser on on the address [http://192.168.4.1](http://192.168.4.1).
 When the credentials are valid and the device connects to the infrastructure, the device can be accessed over http using the link [http://esp32cam.local](http://esp32cam.local) (or the local ip address) from your browser.
 
-RTSP stream is available at: [rtsp://esp32cam.local:554/mjpeg/1](rtsp://esp32cam.local:554/mjpeg/1)
+RTSP stream is available at: (rtsp://esp32cam.local:554/mjpeg/1)[rtsp://esp32cam.local:554/mjpeg/1]
 
 Using the browser, you can
 - Take a snapshot
