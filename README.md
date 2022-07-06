@@ -1,3 +1,8 @@
+
+# Update: New version available!
+Please take a look at [ESP32CAM-RTSP](https://github.com/rzeldent/esp32cam-rtsp)
+
+
 # esp32cam-ready
 
 esp32cam-ready combines multiple projects to have an out-the-box solution to use the Chinese (7 Euro!) esp32cam modules.
