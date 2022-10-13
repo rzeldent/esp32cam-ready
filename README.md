@@ -1,11 +1,13 @@
 
 # Update: New version available!
+
+This version has a nice web interface to configure and much leaner.
 Please take a look at [ESP32CAM-RTSP](https://github.com/rzeldent/esp32cam-rtsp)
 
 
 # esp32cam-ready
 
-![CI-Badge](https://github.com/rzeldent/esp32cam-ready/actions/workflows/main.yml/badge.svg?event=push)
+[![Platform IO CI](https://github.com/rzeldent/esp32cam-ready/actions/workflows/main.yml/badge.svg)](https://github.com/rzeldent/esp32cam-ready/actions/workflows/main.yml)
 
 esp32cam-ready combines multiple projects to have an out-the-box solution to use the Chinese (7 Euro!) esp32cam modules.
 Easy installation: Flash, provision using the build in configuration webserver and connect!
