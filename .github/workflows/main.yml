@@ -1,5 +1,9 @@
 name: Platform IO CI
-on: [push]
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+
 jobs:
   build:
     name: Build
@@ -20,3 +24,21 @@ jobs:
         with:
           name: firmware.bin
           path: .pio/build/*/firmware.bin
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: firmware.bin
+          path: ./artifacts
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**
+          name: Release ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
