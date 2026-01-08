@@ -3,6 +3,7 @@
 #include <WebServer.h>
 #include <OV2640.h>
 #include <rtsp_server.h>
+#include <WiFi.h>
 
 class espcam_webserver
 {

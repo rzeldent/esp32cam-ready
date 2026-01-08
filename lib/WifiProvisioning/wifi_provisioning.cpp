@@ -26,7 +26,7 @@ wl_status_t wifi_provisioning::connect(int seconds /* = 30 */)
 void wifi_provisioning::start_portal(const String &ap_password /*= "" */)
 {
     log_i("Starting portal");
-    WiFi.setAutoConnect(false);
+    WiFi.setAutoReconnect(false);
 
     WiFi.softAP(instance_name_.c_str(), ap_password.length() ? ap_password.c_str() : nullptr);
     auto ip_address = WiFi.softAPIP();
@@ -126,7 +126,7 @@ void wifi_provisioning::handle_root_post()
     WiFi.softAPdisconnect();
     WiFi.mode(WIFI_STA);
     WiFi.begin(ssid.c_str(), password.c_str());
-    WiFi.setAutoConnect(true);
+    WiFi.setAutoReconnect(true);
 
     auto connection_result = (wl_status_t)WiFi.waitForConnectResult();
     log_i("Connection result: %d", connection_result);
