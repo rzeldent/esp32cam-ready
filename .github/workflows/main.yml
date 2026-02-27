@@ -20,7 +20,7 @@ jobs:
       - name: Build firmware
         run: platformio run
       - name: Archive
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: firmware.bin
           path: .pio/build/*/firmware.bin
