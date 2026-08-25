@@ -8,6 +8,13 @@ Please take a look at [ESP32CAM-RTSP](https://github.com/rzeldent/esp32cam-rtsp)
 # esp32cam-ready
 
 [![Platform IO CI](https://github.com/rzeldent/esp32cam-ready/actions/workflows/main.yml/badge.svg)](https://github.com/rzeldent/esp32cam-ready/actions/workflows/main.yml)
+[![Release](https://img.shields.io/github/v/release/rzeldent/esp32cam-ready?include_prereleases&label=release)](https://github.com/rzeldent/esp32cam-ready/releases)
+[![Last commit](https://img.shields.io/github/last-commit/rzeldent/esp32cam-ready)](https://github.com/rzeldent/esp32cam-ready/commits/main)
+[![Contributors](https://img.shields.io/github/contributors/rzeldent/esp32cam-ready)](https://github.com/rzeldent/esp32cam-ready/graphs/contributors)
+[![Repo size](https://img.shields.io/github/repo-size/rzeldent/esp32cam-ready)](https://github.com/rzeldent/esp32cam-ready)
+[![Language: C++](https://img.shields.io/github/languages/top/rzeldent/esp32cam-ready)](https://github.com/rzeldent/esp32cam-ready)
+[![Built with PlatformIO](https://img.shields.io/badge/Built%20with-PlatformIO-ff5a00?logo=platformio&logoColor=white)](https://platformio.org/)
+[![Target: ESP32-CAM](https://img.shields.io/badge/Target-ESP32--CAM-4c9f38)](https://github.com/rzeldent/esp32cam-ready)
 
 esp32cam-ready combines multiple projects to have an out-the-box solution to use the Chinese (7 Euro!) esp32cam modules.
 Easy installation: Flash, provision using the build in configuration webserver and connect!
@@ -25,6 +32,7 @@ RTSP also allows to stream directly to a server using **ffmpeg**. This makes the
 
 ## Wiring
 Only during the upload, the esp32cam module needs to be attached using an USB to serial adapter.
+
 ![ESP FTDI wiring](assets/ESP32CAM-to-FTDI.png)
 
 After programming remove the wire to GPIO0 so the module will start normally.

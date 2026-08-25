@@ -28,6 +28,8 @@ void wifi_provisioning::start_portal(const String &ap_password /*= "" */)
     log_i("Starting portal");
     WiFi.setAutoReconnect(false);
 
+    // Keep both STA (configured network) and AP (portal) active
+    WiFi.mode(WIFI_AP_STA);
     WiFi.softAP(instance_name_.c_str(), ap_password.length() ? ap_password.c_str() : nullptr);
     auto ip_address = WiFi.softAPIP();
     log_i("AP IP address: %s", ip_address.toString().c_str());
@@ -60,8 +62,26 @@ void wifi_provisioning::handle_unknown()
 void wifi_provisioning::handle_root_get()
 {
     log_i("handle_root_get");
+
+    auto scan_status = WiFi.scanComplete();
+    if (scan_status == WIFI_SCAN_FAILED)
+        WiFi.scanNetworks(true);
+
+    // Wait (bounded) for the scan to complete so the dropdown is populated.
+    const auto scan_timeout_ms = 10000U;
+    auto scan_start = millis();
+    while (WiFi.scanComplete() == WIFI_SCAN_RUNNING && millis() - scan_start < scan_timeout_ms)
+        delay(50);
+
+    scan_status = WiFi.scanComplete();
+    if (scan_status < 0)
+    {
+        log_w("WiFi scan did not complete (status %d); showing empty list", scan_status);
+        scan_status = 0;
+    }
+
     String ssid_options;
-    auto ssid_items = WiFi.scanComplete();
+    auto ssid_items = scan_status;
     log_i("ssid Items: %d", ssid_items);
     for (auto index = 0; index < ssid_items; ++index)
     {
@@ -70,6 +90,9 @@ void wifi_provisioning::handle_root_get()
         log_i("Adding ssid: %s (%d dBm)", ssid.c_str(), rssi);
         ssid_options += "<option value=\"" + ssid + "\">" + ssid + "(" + rssi + ")</option>";
     }
+
+    // Free the scan results so the next page load triggers a fresh scan.
+    WiFi.scanDelete();
 
     String html(
         "<!DOCTYPE html>"

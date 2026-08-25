@@ -41,10 +41,32 @@ void setup()
 	pinMode(LED_BUILTIN, OUTPUT);
 	digitalWrite(LED_BUILTIN, false);
 
+	// FRAMESIZE_UXGA with two framebuffers requires PSRAM; verify it is present
+	// before attempting to start the camera.
+	if (!psramFound())
+	{
+		log_e("PSRAM not found - required for FRAMESIZE_UXGA with 2 framebuffers. Restarting...");
+		delay(2000);
+		ESP.restart();
+	}
+
 	log_i("Initialize the camera");
 	esp32cam_aithinker_config.frame_size = FRAMESIZE_UXGA;
-	if (cam.init(esp32cam_aithinker_config) != ESP_OK)
-		log_e("Initializing the camera failed");
+
+	esp_err_t camera_init_result = ESP_FAIL;
+	for (auto attempt = 1; attempt <= 3 && camera_init_result != ESP_OK; ++attempt)
+	{
+		camera_init_result = cam.init(esp32cam_aithinker_config);
+		if (camera_init_result != ESP_OK)
+			log_e("Camera init attempt %d failed (%d)", attempt, camera_init_result);
+	}
+
+	if (camera_init_result != ESP_OK)
+	{
+		log_e("Initializing the camera failed. Restarting...");
+		delay(2000);
+		ESP.restart();
+	}
 
 	log_i("Instance_name: %s", instance_name.c_str());
 

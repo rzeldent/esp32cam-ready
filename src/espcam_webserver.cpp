@@ -84,7 +84,10 @@ void espcam_webserver::handle_jpg_stream()
 						"Content-Type: multipart/x-mixed-replace; boundary=frame\r\n\r\n");
 
 	auto wifi_client = server_.client();
-	do
+	// Don't let a stalled client block streaming forever (and trip the watchdog)
+	wifi_client.setTimeout(2);
+
+	while (wifi_client.connected())
 	{
 		cam_.run();
 		if (!wifi_client.connected())
@@ -92,9 +95,16 @@ void espcam_webserver::handle_jpg_stream()
 
 		server_.sendContent("--frame\r\n"
 							"Content-Type: image/jpeg\r\n\r\n");
-		wifi_client.write(reinterpret_cast<char *>(cam_.getfb()), cam_.getSize());
+		if (wifi_client.write(reinterpret_cast<char *>(cam_.getfb()), cam_.getSize()) <= 0)
+		{
+			log_w("Client stopped receiving frames; ending stream");
+			break;
+		}
 		server_.sendContent("\r\n");
-	} while (wifi_client.connected());
+
+		// Yield to the WiFi stack and feed the watchdog so other tasks keep running.
+		delay(1);
+	}
 }
 
 void espcam_webserver::handle_jpg()
